@@ -1,5 +1,5 @@
 /* Remarque importante : ce fichier contient un peu de tout, ca pourrait vous aidez dans vos fonctions
-( je ne suis pas sure de la validité des informations svp vérifiez avant de les utiliser ) */
+( je ne suis pas sure de la validitÃ© des informations svp vÃ©rifiez avant de les utiliser ) */
 
 
 
@@ -8,7 +8,7 @@
 #define nbrBloc 1000 //le nombre de blocs dns la memoire
 #define FB 5 // le nombre des enregistrements possibles dans chaque bloc
 #define nbrMaxFichier 100 // le nombre maximum des fichiers dans la memoire
-#define First_Bloc 0 // le premier bloc est reservé a la table d'allocation
+#define First_Bloc 0 // le premier bloc est reservÃ© a la table d'allocation
 
 
 
@@ -24,7 +24,7 @@ typedef struct BLOC BLOC ;
 struct BLOC{
 	ENREGISTREMENT ENREG[FB] ;  //FB=FACTEURE DE BLOCAGE
 	int nmbE  ; // nombre d' ENREGISTREMENT DANS LE BLOC
-	int nextBloc //adresse next bloc dans le cas d'organistion chainée
+	int nextBloc //adresse next bloc dans le cas d'organistion chainÃ©e
 }
 
 BLOC MS[nbrBloc]; //memoire secondaire sous forme de tableu de blocs
@@ -38,8 +38,8 @@ struct Meta {
     int taille_blocs; // le nombre de blocs dans le fichier
     int taille_enregistrements; // le nombre d'enregistrement dans le fichier
     int adresse_premier_bloc;
-    int organisation_globale; //1 pour contigue et 2 pour chainée
-    int organisation_interne; // 1 pour trié et 2 pour non trié
+    int organisation_globale; //1 pour contigue et 2 pour chainÃ©e
+    int organisation_interne; // 1 pour triÃ© et 2 pour non triÃ©
 };
 
 
@@ -49,21 +49,21 @@ Meta listeFichiers[nbrBloc]; //liste de tout les fichiers
 void creerFichier(){
 	// creation des meta du fichier
 	Meta meta;
-	printf("Création d'un fichier: \n");
+	printf("CrÃ©ation d'un fichier: \n");
     printf("Nom du fichier: ");
     scanf("%s", meta.nom_fichier);
     printf("Nombre d'enregistrements: ");
     scanf("%d", &meta.taille_enregistrements);
-    printf("Mode d'organisation globale (1: contigu, 2: chaîné): ");
+    printf("Mode d'organisation globale (1: contigu, 2: chaÃ®nÃ©): ");
     scanf("%d", &meta.mode_globale);
-    printf("Mode d'organisation interne (1: trié, 2: non trié): ");
+    printf("Mode d'organisation interne (1: triÃ©, 2: non triÃ©): ");
     scanf("%d", &meta.mode_interne);
 	
 	meta.taille_blocs = (meta.taille_enregistrements + FB - 1) / FB;
     // meta.adresse_premier_bloc = ??
 	
 	
-	//ajout du fichier à la liste des fichiers (la premiére position vide trouvé)
+	//ajout du fichier Ã  la liste des fichiers (la premiÃ©re position vide trouvÃ©)
 	for(int i=0; i < nbrMaxFichiers; i++ ){
 		if(listeFichiers[i].meta.nom_fichier[0] == "\0"){ 
 			listeFichiers[i].meta = meta;
@@ -76,7 +76,7 @@ void creerFichier(){
 	BLOC buffer = {0};
     for(int i = 0; i < meta.taille_blocs; i++) {
         if (meta.mode_globale == 2 && i < meta.taille_blocs - 1) {
-            buffer.suivant = meta.adresse_premier_bloc + i + 1; // chainé
+            buffer.suivant = meta.adresse_premier_bloc + i + 1; // chainÃ©
         } else {
             buffer.suivant = -1; // contigu
         }
@@ -93,7 +93,7 @@ void LireMeta(FILE *f, Meta *meta) {
 }
 
 
-// insertion dans le cas chainé bloc non trié
+// insertion dans le cas chainÃ© bloc non triÃ©
 void insertionChainee(FILE *fichier, ENREGISTREMENT enreg) {
     META meta;
     BLOC bloc;
@@ -105,17 +105,17 @@ void insertionChainee(FILE *fichier, ENREGISTREMENT enreg) {
         fseek(fichier, pos * sizeof(BLOC), SEEK_SET);
         fread(&bloc, sizeof(BLOC), 1, fichier);
 
-        if (bloc.nmbE < FB) { // Insérer dans le bloc
+        if (bloc.nmbE < FB) { // InsÃ©rer dans le bloc
             bloc.ENREG[bloc.nmbE++] = enreg;
             fseek(fichier, pos * sizeof(BLOC), SEEK_SET);
             fwrite(&bloc, sizeof(BLOC), 1, fichier);
-            printf("Enregistrement inséré avec succès.\n");
+            printf("Enregistrement insÃ©rÃ© avec succÃ¨s.\n");
             return;
         }
         pos = bloc.nextBloc;
     }
 
-    printf("Erreur : Aucun espace disponible pour insérer l'enregistrement.\n");
+    printf("Erreur : Aucun espace disponible pour insÃ©rer l'enregistrement.\n");
 }
 
 
@@ -149,7 +149,7 @@ void suppressionPhysique(FILE *fichier, int ID) {
         return;
     }
 
-    // Réorganiser les blocs
+    // RÃ©organiser les blocs
     for (int i = posEnreg; i < bloc.nmbE - 1; i++) {
         bloc.ENREG[i] = bloc.ENREG[i + 1];
     }
@@ -158,7 +158,7 @@ void suppressionPhysique(FILE *fichier, int ID) {
     fseek(fichier, (meta.adresse_premier_bloc + posBloc) * sizeof(BLOC), SEEK_SET);
     fwrite(&bloc, sizeof(BLOC), 1, fichier);
 
-    printf("Enregistrement supprimé physiquement.\n");
+    printf("Enregistrement supprimÃ© physiquement.\n");
 }
 
 
@@ -179,7 +179,7 @@ void suppressionPhysique(FILE *fichier, int ID) {
 int rechercheChaineeNonTrie(FILE *fichier, int ID) {
     META meta;
     BLOC bloc;
-    // Lire les métadonnées
+    // Lire les mÃ©tadonnÃ©es
     fseek(fichier, 0, SEEK_SET);
     fread(&meta, sizeof(META), 1, fichier);
 
@@ -189,12 +189,12 @@ int rechercheChaineeNonTrie(FILE *fichier, int ID) {
         fseek(fichier, pos * sizeof(BLOC), SEEK_SET);
         fread(&bloc, sizeof(BLOC), 1, fichier);
 
-        // Recherche séquentielle dans le bloc
+        // Recherche sÃ©quentielle dans le bloc
         for (int i = 0; i < bloc.nmbE; i++) {
             if (bloc.ENREG[i].ID == ID) {
                int blocTrouve = pos;
 			   int posTrouve = i;
-                printf("Enregistrement trouve au bloc : %d, l'emplacement : %d ", blocTrouve, posTrouve);  // Trouvé
+                printf("Enregistrement trouve au bloc : %d, l'emplacement : %d ", blocTrouve, posTrouve);  // TrouvÃ©
                 return;
             }
         }
@@ -215,19 +215,19 @@ int rechercheChaineeNonTrie(FILE *fichier, int ID) {
 void afficherTableauMeta() {
     FILE *MS = fopen("disque_virtuel.bin", "rb");
     if (!MS) {
-        printf("Erreur : impossible d'accéder à la mémoire secondaire.\n");
+        printf("Erreur : impossible d'accÃ©der Ã  la mÃ©moire secondaire.\n");
         return;
     }
 
     META meta;
     int compteur = 0;
 
-    printf("\n--- Tableau Descriptif des Métadonnées ---\n");
+    printf("\n--- Tableau Descriptif des MÃ©tadonnÃ©es ---\n");
     printf("------------------------------------------------------------\n");
-    printf("| N° | Nom Fichier | Blocs | Enregistrements | Organisation Globale | Organisation Interne |\n");
+    printf("| NÂ° | Nom Fichier | Blocs | Enregistrements | Organisation Globale | Organisation Interne |\n");
     printf("------------------------------------------------------------\n");
 
-    // Parcourir tous les blocs pour trouver les métadonnées
+    // Parcourir tous les blocs pour trouver les mÃ©tadonnÃ©es
     while (fread(&meta, sizeof(META), 1, MS) == 1) {
         compteur++;
         printf("| %3d | %-13s | %5d | %15d | %-19s | %-18s |\n",
@@ -235,8 +235,8 @@ void afficherTableauMeta() {
                meta.nom_fichier,
                meta.taille_blocs,
                meta.taille_enregistrements,
-               meta.mode_globale == 1 ? "Contigu" : "Chaîné",
-               meta.mode_interne == 1 ? "Trié" : "Non trié");
+               meta.mode_globale == 1 ? "Contigu" : "ChaÃ®nÃ©",
+               meta.mode_interne == 1 ? "TriÃ©" : "Non triÃ©");
     }
 
     printf("------------------------------------------------------------\n");
@@ -244,88 +244,8 @@ void afficherTableauMeta() {
     fclose(MS);
 
     if (compteur == 0) {
-        printf("Aucune métadonnée trouvée.\n");
+        printf("Aucune mÃ©tadonnÃ©e trouve !"); 
     }
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-int main() {
-	
-	int choix;
-	do{
-		printf(" --- Le Menu Principal ---  \n\n");
-		printf("1- Initialiser la Memoire Secondaire \n");
-		printf("2- Cr%cer un fichier et le charger en MS \n",130);
-		printf("3- Afficher l'%ctat de la M%cmoire Secondaire \n", 130, 130);
-		printf("4- Afficher les m%ctadonn%ces des fichiers \n", 130, 130);
-		printf("5- Rechercher un enregistrement dans un fichier \n");
-		printf("6- Ins%crer un enregistrement dans un fichier \n", 130);
-		printf("7- Supprimer un enregistrement d'un fichier \n"); // logique ou physique
-		printf("8- D%cfragmenter un fichier \n", 130);
-		printf("9- Supprimer un fichier \n");
-		printf("10- Renommer un fichier \n");
-		printf("11- Compactage de la MS \n");
-		printf("12- Vider la MS \n");
-		printf("13- Quitter le programme \n");
-		printf("\n \nVeuiller saisir votre choix : \n");
-		scanf("%d", &choix);
-		switch(choix){
-			case 1: // initiallisation de la MS
-			
-			    break;
-			case 2: // creation d'un fichier
-			    
-			    break;
-			case 3: // affichage graphique
-			
-			    break;
-			case 4: // affichage tableau meta 
-			
-			    break;
-			case 5: // recherche enregistrement
-			    break;
-			case 6: 
-			    break;
-			case 7: 
-			    break;
-			case 8: 
-			    break;
-			case 9: 
-			    break;
-			case 10: 
-			    break;
-			case 11: 
-			    break;
-			case 12: 
-			    break;
-			default : printf("Choix invalide !");
-			    break;
-		}
-	}while(choix != 13);
-	return 0;
 }
 
 
