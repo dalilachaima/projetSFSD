@@ -19,14 +19,14 @@ L'objectif principal est de permettre au programme de manipuler des fichiers de 
 
 ## Installation et Exécution :
 
-### Prérequis : 
+#### Prérequis : 
 Assurez vous d'avoir un éditeur de code comme Dev C++, VSCode, ou tout autre éditeur de développement en C installé sur votre ordinateur.
 
 #### Télécharger le code source : 
 télécharger le fichier .c du projet.
 Ouverez le fichier sur votre éditeur : Lancez l'éditeur que vous voulez puis ouvrez le fichier .c téléchargé.
 
-### Compilez et exécutez : 
+#### Compilez et exécutez : 
 cliquez sur le bouton Run. Dans le cas d'utilisation de VSCode, assurez vous d'avoir téléchargé les extensions nécessaires pour la programmation en C
 
 
