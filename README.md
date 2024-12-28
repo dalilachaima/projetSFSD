@@ -38,7 +38,7 @@ Merci à tous les contributeurs du projet pour leur travail, expertise, soutien 
 - BERRABAH Amira ( le développement du code, la gestion de projet)
 - NOM Sarah (le développement du code )
 - NOM Noufel ( la rédaction de documentation, les test et la validation)
-- NOM Ramzey ( le développement du code )
+- BELAIDI RAMZY ZAKARIA ( le développement du code )
 
 
 ## License :
