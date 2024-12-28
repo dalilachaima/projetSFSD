@@ -33,7 +33,7 @@ cliquez sur le bouton Run. Dans le cas d'utilisation de VSCode, assurez vous d'a
 ## Contributeurs :
 Merci à tous les contributeurs du projet pour leur travail, expertise, soutien et leur engagement tout au long du projet : 
 
-- ROUABHA Dalila ( le développement du code, la fourniture des ressources )
+- ROUABAH Dalila CHAIMA ( le développement du code, la fourniture des ressources )
 - MESSAOUDI Wissam ( le développement du code )
 - BERRABAH Amira ( le développement du code, la gestion de projet)
 - NOM Sarah (le développement du code )
