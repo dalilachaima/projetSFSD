@@ -33,7 +33,6 @@ void Création_fichier(FILE *fichier) {
     scanf("%d", &modeInterne);
     Ouvrir(fichier, nom_fichier, "wb+");
 }
-
 //fnct2 : Allouer_Blocs
 void Allouer_Blocs(FILE *fichier, int nmbBloc, BLOC *buffer) {
     memset(buffer, 0, sizeof(BLOC));
@@ -44,7 +43,49 @@ void Allouer_Blocs(FILE *fichier, int nmbBloc, BLOC *buffer) {
     }
     printf("on a alloué les blocs");
 } 
+BLOC* allouerBLOCs (FILE *fichier , int nmbBLOC , int modeorganiz )  { 
 
+    if (modeorganiz == 0) {
+        BLOC *BLOCs = (BLOC*)malloc(nmbBLOC * sizeof(BLOC));
+        if (BLOCs == NULL) {
+            perror("Erreur d'allocation mémoire");
+            return NULL;
+        }
+        for (int i = 0; i < nmbBLOC; i++) {
+            BLOCs[i].nombre_enregistrements = 0;
+            if (i < nmbBLOC -1)
+                BLOCs[i].suivant = &BLOCs[i+1];
+            else
+                BLOCs[i].suivant = NULL;
+        }
+        // Ici, vous lirez les données du fichier et les placerez dans les BLOCs
+        return BLOCs;
+    }else if (modeorganiz == 1 ) {
+        BLOC *premier_BLOC = NULL;
+        BLOC *BLOC_courant = NULL;
+        int BLOCs_restants = nmbBLOC;
+        while(BLOCs_restants > 0){
+            BLOC* nouveau_BLOC = (BLOC*)malloc(sizeof(BLOC));
+            if (nouveau_BLOC == NULL) {
+                perror("Erreur d'allocation mémoire");
+                return NULL;
+            }
+            nouveau_BLOC->nombre_enregistrements = 0;
+            nouveau_BLOC->suivant = NULL;
+            if (premier_BLOC == NULL){
+                premier_BLOC = nouveau_BLOC;
+                BLOC_courant = premier_BLOC;
+            }
+            else{
+                BLOC_courant->suivant = nouveau_BLOC;
+                BLOC_courant = nouveau_BLOC;
+            }
+            BLOCs_restants -= 1;
+        }
+        return premier_BLOC;
+
+    }
+}
 //fnct3 : Insertion contigue non triee 
 void insertionContigueNonTriee(FILE *fichier, ENREGISTREMENT e, int *nmbBloc) {
 BLOC buffer;
