@@ -45,7 +45,7 @@ void Allouer_Blocs(FILE *fichier, int nmbBloc, BLOC *buffer) {
     printf("on a alloué les blocs");
 } 
 
-//fnct3' : Insertion contigue non triee 
+//fnct3 : Insertion contigue non triee 
 void insertionContigueNonTriee(FILE *fichier, ENREGISTREMENT e, int *nmbBloc) {
 BLOC buffer;
 bool insere = false; 
