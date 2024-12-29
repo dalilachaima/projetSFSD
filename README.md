@@ -37,7 +37,7 @@ Merci à tous les contributeurs du projet pour leur travail, expertise, soutien 
 - MESSAOUDI Wissam ( le développement du code )
 - BERRABAH Amira ( le développement du code, la gestion de projet)
 - NOM Sarah (le développement du code )
-- NOM Noufel ( la rédaction de documentation, les test et la validation)
+- BOUMEDIENE Noufel ( la rédaction de documentation, les test et la validation)
 - BELAIDI RAMZY ZAKARIA ( le développement du code )
 
 
