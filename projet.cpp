@@ -4,7 +4,7 @@ struct ENREGISTREMENT {
 	int ID ;
 	char champs[60] ;
 	bool supprime  ; 
-	int ClÃ©;
+	int Clé;
 	
 };
 typedef struct BLOC BLOC;
@@ -13,24 +13,23 @@ struct BLOC{
 	int nmbE  ; // nombre d' ENREGISTREMENT DANS LE BLOC
 	int etat = 0;
 	int suppression=0;
-    	struct BLOC *suivant; // Pour l'organisation chaÃ®nÃ©e
 };
 typedef struct BUFFER BUFFER ;
 struct BUFFER {
   BLOC buffer;
 };
 
-//fnct1 : CrÃ©ation_fichier
-void CrÃ©ation_fichier(FILE *fichier) {
+//fnct1 : Création_fichier
+void Création_fichier(FILE *fichier) {
     printf("donne-moi le nom de fichier:\n");
     scanf("%s", nom_fichier);
-    printf("donne-moi le nombre dâ€™enregistrements:\n");
+    printf("donne-moi le nombre d’enregistrements:\n");
     scanf("%d", &nmbEnreg);
     nmbBloc = (nmbEnreg + (FB - 1)) / FB;
     printf("le nombre des bloc est :%d \n", nmbBloc);
-    printf("donne-moi le mode dâ€™organisation Globale: (click 0 pour contigue et 1 pour chainee):\n");
+    printf("donne-moi le mode d’organisation Globale: (click 0 pour contigue et 1 pour chainee):\n");
     scanf("%d", &modeGlobale);
-    printf("donne-moi le mode dâ€™organisation Interne: (click 0 pour trie et 1 pour non trie ):\n");
+    printf("donne-moi le mode d’organisation Interne: (click 0 pour trie et 1 pour non trie ):\n");
     scanf("%d", &modeInterne);
     Ouvrir(fichier, nom_fichier, "wb+");
 }
@@ -43,52 +42,9 @@ void Allouer_Blocs(FILE *fichier, int nmbBloc, BLOC *buffer) {
         fseek(fichier, 0, SEEK_END);
         fwrite(buffer, sizeof(BLOC), 1, fichier);
     }
-    printf("on a allouÃ© les blocs");
+    printf("on a alloué les blocs");
 } 
-BLOC* allouerBLOCs (FILE *fichier , int nmbBLOC , int modeorganiz )  { 
-
-    if (modeorganiz == 0) {
-        BLOC *BLOCs = (BLOC*)malloc(nmbBLOC * sizeof(BLOC));
-        if (BLOCs == NULL) {
-            perror("Erreur d'allocation mÃ©moire");
-            return NULL;
-        }
-        for (int i = 0; i < nmbBLOC; i++) {
-            BLOCs[i].nombre_enregistrements = 0;
-            if (i < nmbBLOC -1)
-                BLOCs[i].suivant = &BLOCs[i+1];
-            else
-                BLOCs[i].suivant = NULL;
-        }
-        // Ici, vous lirez les donnÃ©es du fichier et les placerez dans les BLOCs
-        return BLOCs;
-    }else if (modeorganiz == 1 ) {
-        BLOC *premier_BLOC = NULL;
-        BLOC *BLOC_courant = NULL;
-        int BLOCs_restants = nmbBLOC;
-        while(BLOCs_restants > 0){
-            BLOC* nouveau_BLOC = (BLOC*)malloc(sizeof(BLOC));
-            if (nouveau_BLOC == NULL) {
-                perror("Erreur d'allocation mÃ©moire");
-                return NULL;
-            }
-            nouveau_BLOC->nombre_enregistrements = 0;
-            nouveau_BLOC->suivant = NULL;
-            if (premier_BLOC == NULL){
-                premier_BLOC = nouveau_BLOC;
-                BLOC_courant = premier_BLOC;
-            }
-            else{
-                BLOC_courant->suivant = nouveau_BLOC;
-                BLOC_courant = nouveau_BLOC;
-            }
-            BLOCs_restants -= 1;
-        }
-        return premier_BLOC;
-
-    }
-}
-//fnct3 :Insertion dâ€™un nouvel enregistrement contigue triee
+//fnct3 :Insertion d’un nouvel enregistrement contigue triee
 void insertion1(FILE *fichier, ENREGISTREMENT e) {
     bool Trouv, continu;
     int i = 0, j = 0, k;
@@ -144,7 +100,7 @@ int rechercheDichotomique(FILE *fichier, int nmbBloc, int ID, bool Trouv, int *m
                 m = (debutBloc + finBloc) / 2;
                 if (buffer.ENREG[m].ID == ID) {
                     Trouv = true;
-                    printf("Enregistrement avec ID trouvÃ© dans le Bloc %d, Position %d\n", *milieu + 1, m + 1);
+                    printf("Enregistrement avec ID trouvé dans le Bloc %d, Position %d\n", *milieu + 1, m + 1);
                     return 1;
                 } else if (ID < buffer.ENREG[m].ID) {
                     finBloc = m - 1;
@@ -164,12 +120,12 @@ int rechercheDichotomique(FILE *fichier, int nmbBloc, int ID, bool Trouv, int *m
     printf("Enregistrement avec ID %d introuvable.\n", ID);
     return -1;
 }
-//Suppression dâ€™un enregistrement : 
+//Suppression d’un enregistrement : 
 ////fnct6 : suppressionLogique contigue
 void suppressionLogique(FILE *fichier, int positionBloc, int positionEnregistrement) {
     BLOC buffer;
     if (positionBloc <= 0) {
-        printf("Position du bloc donnÃ©e est invalide !\n");
+        printf("Position du bloc donnée est invalide !\n");
         return;
     }
 
@@ -180,13 +136,13 @@ void suppressionLogique(FILE *fichier, int positionBloc, int positionEnregistrem
         printf("Position de l'enregistrement est invalide !\n");
         return;
     }
-    buffer.ENREG[positionEnregistrement - 1].EffacÃ© = true; 
+    buffer.ENREG[positionEnregistrement - 1].Effacé = true; 
     buffer.ENREG[positionEnregistrement - 1].ID = 0;
     buffer.ENREG[positionEnregistrement - 1].champs[0] = '\0';
     fseek(fichier, -1 * sizeof(BLOC), SEEK_CUR);
     fwrite(&buffer, sizeof(BLOC), 1, fichier);
 
-    printf("L'enregistrement a Ã©tÃ© supprimÃ© logiquement.\n");
+    printf("L'enregistrement a été supprimé logiquement.\n");
 }
 
 
@@ -216,7 +172,7 @@ void suppressionPhysiqueEtReorganisation(FILE *fichier, int positionBloc, int po
     int i, j;
 
     if (positionBloc <= 0 || positionBloc > *nmbBloc) {
-        printf("Position du bloc donnÃ©e est invalide !\n");
+        printf("Position du bloc donnée est invalide !\n");
         return;
     }
 
@@ -269,7 +225,7 @@ void suppressionPhysiqueEtReorganisation(FILE *fichier, int positionBloc, int po
         ftruncate(fileno(fichier), (*nmbBloc) * sizeof(BLOC));
     }
 
-    printf("L'enregistrement a Ã©tÃ© supprimÃ© physiquement et le fichier a Ã©tÃ© rÃ©organisÃ©.\n");
+    printf("L'enregistrement a été supprimé physiquement et le fichier a été réorganisé.\n");
 }
 
 
