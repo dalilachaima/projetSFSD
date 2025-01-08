@@ -3,6 +3,7 @@
 #include <string.h>
 #include <stddef.h>
 
+
 #define MAX_BLOCS 1000
 #define FB 100
 #define nbrMaxFichiers 500
@@ -102,7 +103,7 @@ void delete_file(const char *file_name) {
                 files[k] = files[k + 1];
             }
             file_count--;
-            printf("Fichier '%s' supprimé.\n", file_name);
+            printf("Fichier '%s' supprime.\n", file_name);
             return;
         }
     }
@@ -258,13 +259,13 @@ void renommer_fichier() {
             }
 //mise a jour du mon du fichier dans les meta
             if (nom_deja_pris) {
-                printf("Erreur : Le nom '%s' est déjà utilisé pour un autre fichier.\n", nouveau_nom);
+                printf("Erreur : Le nom '%s' est déjà utilise pour un autre fichier.\n", nouveau_nom);
                 return;
             }
 
             strcpy(files[i].meta.nom_fichier, nouveau_nom);
             MAJMeta(fopen(ancien_nom, "rb+"), 1, &nouveau_nom);
-            printf("Le fichier a été renommé avec succès en '%s'.\n", nouveau_nom);
+            printf("Le fichier a été renomme avec succès en '%s'.\n", nouveau_nom);
             fichier_trouve = 1;
             break;
         }
@@ -347,15 +348,15 @@ int rechercheChaineeNonTrie(FILE *fichier, int id, int *blocPosition, int *posDa
             fseek(fichier, posBloc * sizeof(Bloc), SEEK_SET);
             fwrite(&bloc, sizeof(Bloc), 1, fichier);
 
-            printf("Enregistrement ID %d supprimé logiquement.\n", id);
+            printf("Enregistrement ID %d supprime logiquement.\n", id);
 
            //mise à jour des métadonnées 
             MAJMeta(fichier, 3, &meta.taille_enregistrements);
         } else {
-            printf("Enregistrement ID %d non trouvé dans le bloc.\n", id);
+            printf("Enregistrement ID %d non trouve dans le bloc.\n", id);
         }
     } else {
-        printf("Enregistrement ID %d non trouvé.\n", id);
+        printf("Enregistrement ID %d non trouve.\n", id);
     }
 
    
@@ -379,7 +380,7 @@ void suppression_physique(int id) {
     }
 
     if (!recherche_contigue_non_triee(fichier, id, &posBloc, &posEnreg)) {
-        printf("Enregistrement ID %d non trouvé.\n", id);
+        printf("Enregistrement ID %d non trouve.\n", id);
         fclose(fichier);
         return;
     }
@@ -435,14 +436,14 @@ void suppression_physique(int id) {
         allocation_table[posBloc].is_occupied = 0;
     }
 
-    printf("Enregistrement ID %d supprimé physiquement.\n", id);
+    printf("Enregistrement ID %d supprime physiquement.\n", id);
     fclose(fichier);
 }
 
 // insertion chainee non trié 
 void insertionChaineeNonTrie(ENREGISTREMENT enreg) {
     char nom[50];
-    printf("Entrer le nom du fichier où mettre l'enregistrement :\n");
+    printf("Entrer le nom du fichier ou mettre l'enregistrement :\n");
     scanf("%49s", nom);
     FILE *fichier = fopen(nom, "r+");
     META meta;
@@ -474,7 +475,7 @@ void insertionChaineeNonTrie(ENREGISTREMENT enreg) {
 
 void insertion_chainee_triee(ENREGISTREMENT enreg) {
     char nom[50];
-    printf("Entrer le nom du fichier où mettre l'enregistrement :\n");
+    printf("Entrer le nom du fichier ou mettre l'enregistrement :\n");
     scanf("%49s", nom);
     FILE *fichier = fopen(nom, "r+");
 
@@ -562,7 +563,7 @@ void insertion_chainee_triee(ENREGISTREMENT enreg) {
     fseek(fichier, newBlocIndex * sizeof(Bloc), SEEK_SET);
     fwrite(&nouveau_bloc, sizeof(Bloc), 1, fichier);
 
-    printf("Enregistrement inséré dans un nouveau bloc (chaîné trié).\n");
+    printf("Enregistrement insere dans un nouveau bloc (chaine trie).\n");
     fclose(fichier);
 }
 
@@ -587,7 +588,7 @@ void insertion_contigue_triee(ENREGISTREMENT enreg) {
 
     // verifier si le fichier est plein 
     if (meta.taille_enregistrements == meta.taille_blocs * FB) {
-        printf("Erreur : Aucun espace disponible pour insérer l'enregistrement.\n");
+        printf("Erreur : Aucun espace disponible pour inserer l'enregistrement.\n");
         fclose(fichier);
         return;
     }
@@ -620,7 +621,7 @@ void insertion_contigue_triee(ENREGISTREMENT enreg) {
             fwrite(&meta, sizeof(META), 1, fichier);
             //mise a jour des métadonnées 
             MAJMeta(fichier, 3, &meta.taille_enregistrements);
-            printf("Enregistrement inséré avec succès (contigu trié).\n");
+            printf("Enregistrement insere avec succès (contigu trie).\n");
             fclose(fichier);
             return;
         }
@@ -665,7 +666,7 @@ void insertion_contigue_non_triee(ENREGISTREMENT enreg) {
     fread(&meta, sizeof(META), 1, fichier);
 
     if (meta.taille_enregistrements == meta.taille_blocs * FB) {
-        printf("Erreur : Aucun espace disponible pour insérer l'enregistrement.\n");
+        printf("Erreur : Aucun espace disponible pour inserer l'enregistrement.\n");
         fclose(fichier);
         return;
     }
@@ -684,7 +685,7 @@ void insertion_contigue_non_triee(ENREGISTREMENT enreg) {
             fwrite(&meta, sizeof(META), 1, fichier);
             MAJMeta(fichier, 3, &meta.taille_enregistrements);
 
-            printf("Enregistrement inséré avec succès (contigu non trié).\n");
+            printf("Enregistrement insere avec succes (contigu non trie).\n");
             fclose(fichier);
             return;
         }
@@ -703,7 +704,7 @@ void insertion_contigue_non_triee(ENREGISTREMENT enreg) {
         fwrite(&meta, sizeof(META), 1, fichier);
 
         MAJMeta(fichier, 3, &meta.taille_enregistrements);
-        printf("Enregistrement inséré dans un nouveau bloc (contigu non trié).\n");
+        printf("Enregistrement insere dans un nouveau bloc (contigu non trie).\n");
     } else {
         printf("Erreur : Impossible d'allouer un nouveau bloc.\n");
     }
@@ -841,7 +842,7 @@ int rechercheChaineeTriee(FILE *fichier, int id, int *blocPosition, int *posDans
 
 void defragmentation() {
     char name_file[50];
-    printf("Entrer le nom du fichier à défragmenter :\n");
+    printf("Entrer le nom du fichier à defragmenter :\n");
     scanf("%s", name_file);
 
     for (int i = 0; i < file_count; i++) {
@@ -884,7 +885,7 @@ void defragmentation() {
                             // si le bloc est plein, passer au bloc suivant 
                             posBlocDest = blocDest.next_bloc;
                             if (posBlocDest == -1) {
-                                printf("Erreur : Pas de place disponible pour la défragmentation.\n");
+                                printf("Erreur : Pas de place disponible pour la defragmentation.\n");
                                 fclose(fichier);
                                 return;
                             }
@@ -946,11 +947,11 @@ int main() {
                 break;
             case 5: {
                // recherche d'un enregistrement 
-                printf("Entrer l'id de l'enregistrement recherché :\n");
+                printf("Entrer l'id de l'enregistrement recherche :\n");
                 int id;
                 scanf("%d", &id);
                 char fichier[50];
-                printf("Entrer le nom du fichier à rechercher :\n");
+                printf("Entrer le nom du fichier a rechercher :\n");
                 scanf("%49s", fichier);
 
                 FILE *file = fopen(fichier, "r+");
@@ -985,7 +986,7 @@ int main() {
             }
             case 6: {
                 // insertion d'un enregistrement 
-                printf("Entrer les détails de l'enregistrement :\n");
+                printf("Entrer les details de l'enregistrement :\n");
                 ENREGISTREMENT enreg;
                 printf("ID : ");
                 scanf("%d", &enreg.ID);
@@ -1022,7 +1023,7 @@ int main() {
             case 7: {
                 // suppression d'un enregistrement 
                 int identifiant;
-                printf("Entrer l'id de l'enregistrement à supprimer :\n");
+                printf("Entrer l'id de l'enregistrement a supprimer :\n");
                 scanf("%d", &identifiant);
                 printf("Choisissez un type de suppression : (1- logique  2- physique)\n");
                 int type;
