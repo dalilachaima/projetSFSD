@@ -112,7 +112,7 @@ void delete_file(const char *file_name) {
 
 void clear_disk() {
     initialize_disk();
-    printf("Disque vidé.\n");
+    printf("Disque vide.\n");
 }
 
 void display_allocation_table() {
@@ -165,21 +165,21 @@ void MAJMeta(FILE *f, int nc, void *v) {
 void creer_fichier() {
     //creation des meta du fichier
     META meta;
-    printf("Création d'un fichier :\n");
+    printf("Creation d'un fichier :\n");
     printf("Nom du fichier : ");
     scanf("%s", meta.nom_fichier);
     printf("Nombre d'enregistrements : ");
     scanf("%d", &meta.taille_enregistrements);
-    printf("Mode d'organisation globale (1: contigu, 2: chaîne) : ");
+    printf("Mode d'organisation globale (1: contigu, 2: chaine) : ");
     scanf("%d", &meta.organisation_globale);
-    printf("Mode d'organisation interne (1: trié, 2: non trié) : ");
+    printf("Mode d'organisation interne (1: trie, 2: non trie) : ");
     scanf("%d", &meta.organisation_interne);
 
     meta.taille_blocs = (meta.taille_enregistrements + FB - 1) / FB;
     meta.adresse_premier_bloc = -1;
 
     if (!check_free_space(meta.taille_blocs)) {
-        printf("Erreur : Espace insuffisant pour créer le fichier.\n");
+        printf("Erreur : Espace insuffisant pour creer le fichier.\n");
         return;
     }
 
@@ -233,7 +233,7 @@ void creer_fichier() {
         }
     }
 
-    printf("Fichier créé avec succès !\n");
+    printf("Fichier cree avec succès !\n");
     fclose(fichier);
 }
 // fonction pour renommer un fichier
@@ -259,20 +259,20 @@ void renommer_fichier() {
             }
 //mise a jour du mon du fichier dans les meta
             if (nom_deja_pris) {
-                printf("Erreur : Le nom '%s' est déjà utilise pour un autre fichier.\n", nouveau_nom);
+                printf("Erreur : Le nom '%s' est deja utilise pour un autre fichier.\n", nouveau_nom);
                 return;
             }
 
             strcpy(files[i].meta.nom_fichier, nouveau_nom);
             MAJMeta(fopen(ancien_nom, "rb+"), 1, &nouveau_nom);
-            printf("Le fichier a été renomme avec succès en '%s'.\n", nouveau_nom);
+            printf("Le fichier a ete renomme avec succes en '%s'.\n", nouveau_nom);
             fichier_trouve = 1;
             break;
         }
     }
 
     if (!fichier_trouve) {
-        printf("Erreur : Fichier '%s' non trouvé.\n", ancien_nom);
+        printf("Erreur : Fichier '%s' non trouve.\n", ancien_nom);
     }
 }
 //fonction pour la suppression logique d'un enregistrement 
