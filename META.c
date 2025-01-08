@@ -229,7 +229,7 @@ void creer_fichier() {
                 fseek(fichier, adresse_bloc_precedent * sizeof(Bloc), SEEK_SET);
                 fwrite(&buffer, sizeof(Bloc), 1, fichier);
             }
-            adresse_bloc_precedent = ftell(fichier) / sizeof(Bloc) - 1; ..mise à jour de l'adresse du bloc pecedant 
+            adresse_bloc_precedent = ftell(fichier) / sizeof(Bloc) - 1; //mise à jour de l'adresse du bloc pecedant 
         }
     }
 
@@ -1071,3 +1071,4 @@ int main() {
 
     return 0;
 }
+
