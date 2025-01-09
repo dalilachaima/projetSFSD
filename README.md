@@ -39,7 +39,10 @@ Merci à tous les contributeurs du projet pour leur travail, expertise, soutien 
 - AITABI NOUARA SARA (le développement du code )
 - BOUMEDIENE Noufel ( la rédaction de documentation, les test et la validation)
 - BELAIDI RAMZY ZAKARIA ( le développement du code )
+  
+En conclusion, ce projet nous a permis de créer un projet a partir de 0.
 
+Nous tenons à exprimer notre gratitude à notre professeur de Structure donne et Structure Fichier  , LAHRECHE , pour son soutien et ses conseils précieux tout au long de ce semestre.
 
 ## License :
 Ce projet est licencié sous la Licence de l'USTHB.
